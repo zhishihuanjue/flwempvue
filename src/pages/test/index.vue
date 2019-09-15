@@ -13,7 +13,7 @@
           </div>
           <label class="weui-search-bar__label" :hidden="inputShowed" @click="showInput">
             <icon class="weui-icon-search" type="search" size="14"></icon>
-            <div class="weui-search-bar__text">搜索</div>
+            <div class="weui-search-bar__text">搜索1</div>
           </label>
         </div>
         <div class="weui-search-bar__cancel-btn" :hidden="!inputShowed" @click="hideInput">取消</div>
@@ -39,23 +39,33 @@
         <div class="weui-tab__panel">
           <!-- 图片item -->
           <div class="img-items">
-            <template v-for="(dataImg,index) in dataImgs">
-              <card :text="dataImg.text" :cardimage="dataImg.img"  ></card>
-            </template>
+              <card  v-for="(dataImg,index) in dataImgs"  :key="index" :text="dataImg.text" :cardimage="dataImg.img" ></card>
           </div>
         </div>
       </div>
 
-     
+
 
     </div>
   </div>
 </template>
 
 <script>
-import card from '@/components/card'
+import card from '@/components/card2'
 
 export default {
+  onReachBottom(){
+      var thar = this;
+    // 上拉加载更多
+      console.log("// 上拉加载更多");
+      wx.showLoading({
+        title: '加载中',
+      });
+      setTimeout(function () {
+        wx.hideLoading();
+        thar.dataImgs.push({"img":"http://manager.ddroom.cn//upload/render/20190909172050/09dcc43b.jpg","text":"设计师:yangji"});
+      }, 2000)
+  },
   data() {
     return {
       user:{},
@@ -93,20 +103,20 @@ export default {
     }
   },
   created(){
-    wx.login({
-      success (res) {
-          if (res.code){
-              console.log(res.code);
-              // 这里可以把code传给后台，后台用此获取openid及session_key
-          }
-      },
-    })
-    wx.getUserInfo({
-      success: function (res) {
-        console.log(res.userInfo.nickName);
-        console.log(res.userInfo.avatarUrl);
-      },
-    })
+    // wx.login({
+    //   success (res) {
+    //       if (res.code){
+    //           console.log(res.code);
+    //           // 这里可以把code传给后台，后台用此获取openid及session_key
+    //       }
+    //   },
+    // })
+    // wx.getUserInfo({
+    //   success: function (res) {
+    //     console.log(res.userInfo.nickName);
+    //     console.log(res.userInfo.avatarUrl);
+    //   },
+    // })
   },
   methods: {
     showInput() {
